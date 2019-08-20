@@ -1,15 +1,20 @@
 import numpy as np
+import .utils
 
-class Array:
-	'''Class for numerical array manipulation. Uses numpy arrays for faster processing
+class Array(utils):
+	'''Class for 1D numerical array manipulation. Uses numpy arrays for faster processing
 		
 		Attributes:
-			data (list): list containing the sequence of numbers
+			data (numpy.array): containing the sequence of numbers
 			
 	'''
 	
 	def __init__(self, data):
-		
+		'''Initializer of the Array instance
+			
+			Args:
+				data (array-like): container of initializing data
+		'''
 		self.data = np.array(data)
 		
 	def __add__(self, values):
@@ -19,27 +24,13 @@ class Array:
 				values (iterable): numerical elements to add to the data list
 				
 			Returns:
-				Array: numpy array containing previous and added elements
+				self: reference to the calling object
 		'''
 		
-		return self.data.append(values)
+		self.data = self.data.append(values)
 		
-	def __len__(self):
-		'''Returns the size of this Array
-		'''
+		return self
 		
-		return len(self.data)
-	
-	def __contains__(self, value):
-		'''Implementation of 'in' keyword
-		
-			Args: value to check within data
-			
-			Returns: 
-				True or False, whether the value is contained the in the data 
-		'''
-		return value in self.data
-	
 	def add_at_index(self, values, idx):
 		'''Inserts the sequence of values at the idx position and returns it as a new Array. Elements already at position idx 
 			and forward are displaced to make space for the new values.
@@ -60,35 +51,6 @@ class Array:
 		else:
 			return new_array[:idx-1].append(values).append(new_array[idx:])
 			
-	def find(self, value):
-		'''Finds the given value and returns it's position in the array.
-		
-			Args: 
-				value (numerical): value to be looked for inside the data
-				
-			Returns:
-				list (int): the positional indices of all ocurences of the value, or None if no ocurrence was found
-		'''
-		if not value in self.data:
-			return None
-		
-		return self.data.where(arr == value).tolist()
-	
-	def is_empty(self):
-		'''Checks wether the data container is empty or not
-		
-			Args:
-				none
-			
-			Returns:
-				boolean: True if the data is empty or Fal
-		'''
-		
-		if len(self.data) == 0:
-			return True
-		else:
-			return False
-		
 	def remove_value(self, value):
 		'''Removes the specified value from the data, if it exists, and shrinks the data array
 			
@@ -142,31 +104,3 @@ class Array:
 			else:	#if element is in between
 				self.data = self.data[:idx] + self.data[idx+1:]
 	
-	
-	def sum(self):
-		'''Calculates the sum of all elements in the array.
-			Args:
-				none
-				
-			Returns:
-				float: the sum of all the elements in the array, or None if the array is empty.
-		'''
-		
-		if self.is_empty():
-			return None
-		else:
-			return self.data.sum()
-	
-	def mean(self):
-		'''Calculates the mean of all elements in the array.
-			Args:
-				none
-				
-			Returns:
-				float: the mean of all the elements in the array, or None if the array is empty.
-		'''
-		
-		if self.is_empty():
-			return None
-		else:
-			return self.data.mean()
