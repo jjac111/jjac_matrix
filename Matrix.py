@@ -1,5 +1,5 @@
 import numpy as np
-import .utils
+from utils import utils
 
 class Matrix(utils):
 	'''Class for 2D numerical array manipulation. Uses numpy arrays for faster processing

@@ -1,3 +1,5 @@
+import numpy as np
+
 class utils:
 	'''Class for shared utility functions
 	'''
@@ -82,20 +84,6 @@ class utils:
 		else:
 			return self.data.mean()
 			
-	def find(self, value):
-		'''Finds the given value and returns it's position in the matrix.
-		
-			Args: 
-				value (numerical): value to be looked for inside the data
-				
-			Returns:
-				list (int): the positional indices of all ocurences of the value, or None if no ocurrence was found
-		'''
-		if not value in self.data:
-			return None
-		
-		return self.data.where(arr == value).tolist()
-	
 	def __len__(self):
 		'''Returns the size of this Matrix
 		'''
@@ -121,6 +109,18 @@ class utils:
 				True or False, whether the value is contained the in the data 
 		'''
 		return value in self.data
+	
+	def __eq__(self, other):
+		'''Magic method for implementing the equality comparison '=='. It compares the data attributes of both objects
+			
+			Args:
+				other (Array): another Array instance
+			
+			Returns:
+				boolean: True if both instances' data attrivutes contain the same data, False otherwise
+		'''
+		
+		return np.array_equal(self.data, other.data)
 	
 	def is_empty(self):
 		'''Checks wether the data container is empty or not
